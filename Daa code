@@ -1,0 +1,972 @@
+Binary Search
+
+#include<iostream>
+using namespace std;
+int bs (int arr[] , int target,int length){
+    int lo = 0;
+    int hi = length ;
+
+    while (lo<=hi)
+    {
+        int mid = lo + (hi-lo)/2;
+
+        if(arr[mid] == target) return mid;
+
+        if(arr[mid] > target) hi = mid-1;
+
+        else
+         lo = mid+1;
+    }
+
+    return -1;
+    
+}
+int main()
+{
+   int arr[] = {1,2,3,4,5,6,7,8};
+   int target = 8;
+   int ans = bs(arr,target,7);
+
+   if(ans == -1) cout<<"element not found in the array";
+   else cout<<target<<" found in the array at idx "<<ans;
+}
+
+
+////////////////////////////////////////////////////////////
+Quick Sort
+
+#include<iostream>
+using namespace std;
+// void swap ( int arr[] , int hi , int low)
+// {
+//     int temp = arr[hi];
+//     arr[hi] = arr[low];
+//     arr[low]= temp;
+// }
+
+void  quicksort (int arr[] , int start , int end)
+{
+    if (start >= end)
+    {
+        return;
+    }
+
+    int low = start;
+    int hi = end;
+
+    int mid = low + (hi-low)/2;
+    int pivot = arr[mid];
+
+    while(low <= hi)
+    {
+        while(arr[low] < pivot) low++;
+
+        while(arr[hi] > pivot) hi--;
+
+        if(start <= end){
+           int temp = arr[hi];
+           arr[hi] = arr[low];
+           arr[low]= temp;
+           low++;
+           hi--;
+        }
+    }
+
+    quicksort(arr,start,hi);
+    quicksort(arr,low,end);
+   
+}
+
+int main()
+{
+    int arr[] = {6,8,4,3,90,1};
+
+    quicksort(arr,0,5);
+
+    for(int i =0 ;i<6;i++)
+    {
+        cout<<arr[i]<<" ";
+    }
+
+    return 0;
+}
+/////////////////////////////////////////////////////////////////
+Merge Sort
+// Merge sort in C++
+
+#include <iostream>
+using namespace std;
+
+// Merge two subarrays L and M into arr
+void merge(int arr[], int p, int q, int r) {
+  
+  // Create L ← A[p..q] and M ← A[q+1..r]
+  int n1 = q - p + 1;
+  int n2 = r - q;
+
+  int L[n1], M[n2];
+
+  for (int i = 0; i < n1; i++)
+    L[i] = arr[p + i];
+  for (int j = 0; j < n2; j++)
+    M[j] = arr[q + 1 + j];
+
+  // Maintain current index of sub-arrays and main array
+  int i, j, k;
+  i = 0;
+  j = 0;
+  k = p;
+
+  // Until we reach either end of either L or M, pick larger among
+  // elements L and M and place them in the correct position at A[p..r]
+  while (i < n1 && j < n2) {
+    if (L[i] <= M[j]) {
+      arr[k] = L[i];
+      i++;
+    } else {
+      arr[k] = M[j];
+      j++;
+    }
+    k++;
+  }
+
+  // When we run out of elements in either L or M,
+  // pick up the remaining elements and put in A[p..r]
+  while (i < n1) {
+    arr[k] = L[i];
+    i++;
+    k++;
+  }
+
+  while (j < n2) {
+    arr[k] = M[j];
+    j++;
+    k++;
+  }
+}
+
+// Divide the array into two subarrays, sort them and merge them
+void mergeSort(int arr[], int l, int r) {
+  if (l < r) {
+    // m is the point where the array is divided into two subarrays
+    int m = l + (r - l) / 2;
+
+    mergeSort(arr, l, m);
+    mergeSort(arr, m + 1, r);
+
+    // Merge the sorted subarrays
+    merge(arr, l, m, r);
+  }
+}
+
+// Print the array
+void printArray(int arr[], int size) {
+  for (int i = 0; i < size; i++)
+    cout << arr[i] << " ";
+  cout << endl;
+}
+
+// Driver program
+int main() {
+  int arr[] = {6, 5, 12, 10, 9, 1};
+  int size = sizeof(arr) / sizeof(arr[0]);
+
+  mergeSort(arr, 0, size - 1);
+
+  cout << "Sorted array: \n";
+  printArray(arr, size);
+  return 0;
+}
+/////////////////////////////////////////////////////////////////
+Starssen 2*2
+#include <stdio.h>
+int main()
+{
+int a[2][2],b[2][2],c[2][2],i,j;
+int m1,m2,m3,m4,m5,m6,m7;
+          // Here we are scanning and printing the first matrix
+printf("Enter the 4 elements of first matrix: ");
+for(i=0;i<2;i++)
+for(j=0;j<2;j++)
+scanf("%d",&a[i][j]);
+            // Here we are scanning and printing the second matrix
+printf("Enter the 4 elements of second matrix: ");
+for(i=0;i<2;i++)
+for(j=0;j<2;j++)
+scanf("%d",&b[i][j]);
+
+printf("\nThe first matrix is\n");
+for(i=0;i<2;i++)
+{
+printf("\n");
+for(j=0;j<2;j++)
+printf("%d\t",a[i][j]);
+}
+
+printf("\nThe second matrix is\n");
+for(i=0;i<2;i++){
+printf("\n");
+for(j=0;j<2;j++)
+printf("%d\t",b[i][j]);
+}
+          // Here we are applying the above mentioned formulae
+m1= (a[0][0] + a[1][1])*(b[0][0]+b[1][1]);
+m2= (a[1][0]+a[1][1])*b[0][0];
+m3= a[0][0]*(b[0][1]-b[1][1]);
+m4= a[1][1]*(b[1][0]-b[0][0]);
+m5= (a[0][0]+a[0][1])*b[1][1];
+m6= (a[1][0]-a[0][0])*(b[0][0]+b[0][1]);
+m7= (a[0][1]-a[1][1])*(b[1][0]+b[1][1]);
+
+c[0][0]=m1+m4-m5+m7;
+c[0][1]=m3+m5;
+c[1][0]=m2+m4;
+c[1][1]=m1-m2+m3+m6;
+          // As we got the value of the elements, we now print them
+printf("\n After performing multiplication \n");
+for(i=0;i<2;i++){
+printf("\n");
+for(j=0;j<2;j++)
+printf("%d\t",c[i][j]);
+}
+
+return 0;
+}
+/////////////////////////////////////////////////////////////////////
+Starssen 4*4
+#include <bits/stdc++.h>
+using namespace std;
+
+#define ROW_1 4
+#define COL_1 4
+
+#define ROW_2 4
+#define COL_2 4
+
+void print(string display, vector<vector<int> > matrix,
+		int start_row, int start_column, int end_row,
+		int end_column)
+{
+	cout << endl << display << " =>" << endl;
+	for (int i = start_row; i <= end_row; i++) {
+		for (int j = start_column; j <= end_column; j++) {
+			cout << setw(10);
+			cout << matrix[i][j];
+		}
+		cout << endl;
+	}
+	cout << endl;
+	return;
+}
+
+void add_matrix(vector<vector<int> > matrix_A,
+				vector<vector<int> > matrix_B,
+				vector<vector<int> >& matrix_C,
+				int split_index)
+{
+	for (auto i = 0; i < split_index; i++)
+		for (auto j = 0; j < split_index; j++)
+			matrix_C[i][j]
+				= matrix_A[i][j] + matrix_B[i][j];
+}
+
+vector<vector<int> >
+multiply_matrix(vector<vector<int> > matrix_A,
+				vector<vector<int> > matrix_B)
+{
+	int col_1 = matrix_A[0].size();
+	int row_1 = matrix_A.size();
+	int col_2 = matrix_B[0].size();
+	int row_2 = matrix_B.size();
+
+	if (col_1 != row_2) {
+		cout << "\nError: The number of columns in Matrix "
+				"A must be equal to the number of rows in "
+				"Matrix B\n";
+		return {};
+	}
+
+	vector<int> result_matrix_row(col_2, 0);
+	vector<vector<int> > result_matrix(row_1,
+									result_matrix_row);
+
+	if (col_1 == 1)
+		result_matrix[0][0]
+			= matrix_A[0][0] * matrix_B[0][0];
+	else {
+		int split_index = col_1 / 2;
+
+		vector<int> row_vector(split_index, 0);
+		vector<vector<int> > result_matrix_00(split_index,
+											row_vector);
+		vector<vector<int> > result_matrix_01(split_index,
+											row_vector);
+		vector<vector<int> > result_matrix_10(split_index,
+											row_vector);
+		vector<vector<int> > result_matrix_11(split_index,
+											row_vector);
+
+		vector<vector<int> > a00(split_index, row_vector);
+		vector<vector<int> > a01(split_index, row_vector);
+		vector<vector<int> > a10(split_index, row_vector);
+		vector<vector<int> > a11(split_index, row_vector);
+		vector<vector<int> > b00(split_index, row_vector);
+		vector<vector<int> > b01(split_index, row_vector);
+		vector<vector<int> > b10(split_index, row_vector);
+		vector<vector<int> > b11(split_index, row_vector);
+
+		for (auto i = 0; i < split_index; i++)
+			for (auto j = 0; j < split_index; j++) {
+				a00[i][j] = matrix_A[i][j];
+				a01[i][j] = matrix_A[i][j + split_index];
+				a10[i][j] = matrix_A[split_index + i][j];
+				a11[i][j] = matrix_A[i + split_index]
+									[j + split_index];
+				b00[i][j] = matrix_B[i][j];
+				b01[i][j] = matrix_B[i][j + split_index];
+				b10[i][j] = matrix_B[split_index + i][j];
+				b11[i][j] = matrix_B[i + split_index]
+									[j + split_index];
+			}
+
+		add_matrix(multiply_matrix(a00, b00),
+				multiply_matrix(a01, b10),
+				result_matrix_00, split_index);
+		add_matrix(multiply_matrix(a00, b01),
+				multiply_matrix(a01, b11),
+				result_matrix_01, split_index);
+		add_matrix(multiply_matrix(a10, b00),
+				multiply_matrix(a11, b10),
+				result_matrix_10, split_index);
+		add_matrix(multiply_matrix(a10, b01),
+				multiply_matrix(a11, b11),
+				result_matrix_11, split_index);
+
+		for (auto i = 0; i < split_index; i++)
+			for (auto j = 0; j < split_index; j++) {
+				result_matrix[i][j]
+					= result_matrix_00[i][j];
+				result_matrix[i][j + split_index]
+					= result_matrix_01[i][j];
+				result_matrix[split_index + i][j]
+					= result_matrix_10[i][j];
+				result_matrix[i + split_index]
+							[j + split_index]
+					= result_matrix_11[i][j];
+			}
+
+		result_matrix_00.clear();
+		result_matrix_01.clear();
+		result_matrix_10.clear();
+		result_matrix_11.clear();
+		a00.clear();
+		a01.clear();
+		a10.clear();
+		a11.clear();
+		b00.clear();
+		b01.clear();
+		b10.clear();
+		b11.clear();
+	}
+	return result_matrix;
+}
+
+int main()
+{
+	vector<vector<int> > matrix_A = { { 1, 1, 1, 1 },
+									{ 2, 2, 2, 2 },
+									{ 3, 3, 3, 3 },
+									{ 2, 2, 2, 2 } };
+
+	print("Array A", matrix_A, 0, 0, ROW_1 - 1, COL_1 - 1);
+
+	vector<vector<int> > matrix_B = { { 1, 1, 1, 1 },
+									{ 2, 2, 2, 2 },
+									{ 3, 3, 3, 3 },
+									{ 2, 2, 2, 2 } };
+
+	print("Array B", matrix_B, 0, 0, ROW_2 - 1, COL_2 - 1);
+
+	vector<vector<int> > result_matrix(
+		multiply_matrix(matrix_A, matrix_B));
+
+	print("Result Array", result_matrix, 0, 0, ROW_1 - 1,
+		COL_2 - 1);
+}
+
+///////////////////////////////////////////////////////////////
+Minimum Spanning Tree
+#include <iostream>
+#include <bits/stdc++.h>
+
+using namespace std;
+
+class DSU
+{
+public:
+    int *parent;
+    int *rank;
+
+    DSU(int v)
+    {
+        rank = new int[v + 1];
+        parent = new int[v + 1];
+        for (int i = 0; i <= v; i++)
+        {
+            parent[i] = i;
+        }
+        for (int i = 0; i <= v; i++)
+        {
+            rank[i] = 0;
+        }
+    }
+
+    int find(int x)
+    {
+        if (parent[x] != x)
+        {
+            parent[x] = find(parent[x]);
+        }
+        return parent[x];
+    }
+
+    void unite(int a, int b)
+    {
+        int parentA = find(a);
+        int parentB = find(b);
+        if (parentA == parentB)
+            return;
+        // parent[parentB] = parentA;
+
+        if (rank[parentA] < rank[parentB])
+        {
+            parent[parentA] = parentB;
+        }
+        else if (rank[parentA] > rank[parentB])
+        {
+            parent[parentB] = parentA;
+        }
+        else
+        {
+            parent[parentB] = parentA;
+            rank[parentA]++;
+        }
+    }
+
+    ~DSU()
+    {
+        delete[] parent, rank;
+    }
+};
+
+class Edge
+{
+public:
+    int w, x, y;
+
+    Edge(int x, int y, int w)
+    {
+        this->x = x;
+        this->y = y;
+        this->w = w;
+    }
+};
+
+class CompareEdge
+{
+public:
+    bool operator()(Edge x, Edge y)
+    {
+        return x.w < y.w;
+    }
+};
+
+class Graph
+{
+public:
+    int v;
+    DSU *dsu;
+    vector<Edge> edges;
+    // priority_queue<graphEdge, vector<graphEdge>, Compare> pq;
+
+    Graph(int v)
+    {
+        this->v = v;
+        dsu = new DSU(v);
+    }
+
+    void addEdge(int x, int y, int weight)
+    {
+        edges.push_back(Edge(x, y, weight));
+    }
+
+    void addUndirectedEdge(int x, int y, int weight)
+    {
+        edges.push_back(Edge(x, y, weight));
+        edges.push_back(Edge(y, x, weight));
+    }
+
+    void printEdges()
+    {
+        // sort(edges.begin(), edges.end(), CompareEdge());
+        for (Edge edge : edges)
+        {
+            cout << edge.x << " --> " << edge.y << " " << edge.w;
+        }
+    }
+
+    void kruskalMST()
+    {
+        sort(edges.begin(), edges.end(), CompareEdge());
+        int count = 1, cost = 0;
+        cout << "\nMinimum Spanning Tree\n\n";
+        for (int i = 0; count < v; i++)
+        {
+            Edge edge = edges[i];
+            int parentX = dsu->find(edge.x), parentY = dsu->find(edge.y);
+            if (parentX != parentY)
+            {
+                dsu->unite(parentX, parentY);
+                count++;
+                cost += edge.w;
+                cout << edge.x << " --> " << edge.y << endl;
+            }
+        }
+        cout << "\nCost: " << cost << endl;
+    }
+
+    ~Graph()
+    {
+        if (dsu != nullptr)
+            delete dsu;
+    }
+};
+
+int main()
+{
+    Graph g(7);
+    g.addUndirectedEdge(1, 6, 10);
+    g.addUndirectedEdge(1, 2, 28);
+    g.addUndirectedEdge(2, 7, 14);
+    g.addUndirectedEdge(6, 5, 25);
+    g.addUndirectedEdge(5, 7, 24);
+    g.addUndirectedEdge(7, 4, 18);
+    g.addUndirectedEdge(5, 4, 22);
+    g.addUndirectedEdge(3, 4, 12);
+    g.addUndirectedEdge(3, 2, 16);
+    g.kruskalMST();
+    // g.printSortedEdges();
+}
+
+
+Job Sequencing with Deadline
+
+
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+// A structure to represent a Jobs
+typedef struct Jobs {
+   char id; // Jobs Id
+   int dead; // Deadline of Jobs
+   int profit; // Profit if Jobs is over before or on deadline
+} Jobs;
+
+// This function is used for sorting all Jobss according to
+// profit
+int compare(const void* a, const void* b){
+   Jobs* temp1 = (Jobs*)a;
+   Jobs* temp2 = (Jobs*)b;
+   return (temp2->profit - temp1->profit);
+}
+
+// Find minimum between two numbers.
+int min(int num1, int num2){
+   return (num1 > num2) ? num2 : num1;
+}
+int main(){
+   Jobs arr[] = { { 'a', 2, 100 },
+      { 'b', 2, 20 },
+      { 'c', 1, 40 },
+      { 'd', 3, 35 },
+      { 'e', 1, 25 }
+   };
+   int n = sizeof(arr) / sizeof(arr[0]);
+   printf("Following is maximum profit sequence of Jobs \n");
+   qsort(arr, n, sizeof(Jobs), compare);
+   int result[n]; // To store result sequence of Jobs
+   bool slot[n]; // To keep track of free time slots
+
+   // Initialize all slots to be free
+   for (int i = 0; i < n; i++)
+      slot[i] = false;
+
+   // Iterate through all given Jobs
+   for (int i = 0; i < n; i++) {
+
+      // Find a free slot for this Job
+      for (int j = min(n, arr[i].dead) - 1; j >= 0; j--) {
+
+         // Free slot found
+         if (slot[j] == false) {
+            result[j] = i;
+            slot[j] = true;
+            break;
+         }
+      }
+   }
+
+   // Print the result
+   for (int i = 0; i < n; i++)
+      if (slot[i])
+         printf("%c ", arr[result[i]].id);
+   return 0;
+}
+
+
+IMPLEMENTING TRAVELLING SALES MAN PROBLEM
+
+
+
+#include <stdio.h>
+ 
+int ary[10][10], completed[10], n, cost = 0;
+ 
+void mincost(int city) {
+  int i, ncity;
+ 
+  completed[city] = 1;
+ 
+  //printf("%d--->", city + 1);
+  ncity = least(city);
+ 
+  if (ncity == 999) {
+    ncity = 0;
+    printf("%d", ncity + 1);
+    cost += ary[city][ncity];
+ 
+    return;
+  }
+ 
+  mincost(ncity);
+}
+ 
+int least(int c) {
+  int i, nc = 999;
+  int min = 999, kmin;
+ 
+  for (i = 0; i < n; i++) {
+    if ((ary[c][i] != 0) && (completed[i] == 0))
+      if (ary[c][i] + ary[i][c] < min) {
+        min = ary[i][0] + ary[c][i];
+        kmin = ary[c][i];
+        nc = i;
+      }
+  }
+ 
+  if (min != 999)
+    cost += kmin;
+ 
+  return nc;
+}
+ 
+int main() {
+    int n = 4;
+    ary[0][0] = 0;
+    ary[0][1] = 4;
+    ary[0][2] = 1;
+    ary[1][0] = 4;
+    ary[1][1] = 0;
+    ary[1][2] = 2;
+    ary[2][0] = 1;
+    ary[2][1] = 2;
+    ary[2][1] = 0;
+    
+    int i;
+    for(i = 0 ; i < n; i++){
+        completed[i] = 0;
+    }
+    mincost(0);
+    printf("%d", cost);
+    return 0;
+}
+
+
+MATRIX CHAIN MULTIPLICATION USING DP
+
+
+#include <bits/stdc++.h>
+using namespace std;
+ 
+// Matrix Ai has dimension p[i-1] x p[i]
+// for i = 1 . . . n
+int MatrixChainOrder(int p[], int i, int j)
+{
+    if (i == j)
+        return 0;
+    int k;
+    int mini = INT_MAX;
+    int count;
+ 
+    // Place parenthesis at different places
+    // between first and last matrix,
+    // recursively calculate count of multiplications
+    // for each parenthesis placement
+    // and return the minimum count
+    for (k = i; k < j; k++)
+    {
+        count = MatrixChainOrder(p, i, k)
+                + MatrixChainOrder(p, k + 1, j)
+                + p[i - 1] * p[k] * p[j];
+ 
+        mini = min(count, mini);
+    }
+ 
+    // Return minimum count
+    return mini;
+}
+ 
+// Driver Code
+int main()
+{
+    int arr[] = { 1, 2, 3, 4, 3 };
+    int N = sizeof(arr) / sizeof(arr[0]);
+ 
+    // Function call
+    cout << "Minimum number of multiplications is "
+         << MatrixChainOrder(arr, 1, N - 1);
+    return 0;
+}
+
+
+
+GRAPH COLORING USING BACK TRACKING
+
+
+
+#include <bits/stdc++.h>
+using namespace std;
+
+/*
+defining a macro that denotes the total number of vertices of the graph
+*/
+#define V 4
+
+/* A function to print the color configuration*/
+void printConfiguration(int colorArray[]) {
+   cout << "The assigned colors are as follows: " << endl;
+   for (int i = 0; i < V; i++)
+      cout << "Vertex: " << i << " Color: " << colorArray[i] << endl;
+}
+
+/*
+A function that will check if the current color of the graph is safe or not.
+*/
+bool isSafe(bool graph[V][V], int colorArray[]) {
+   for (int i = 0; i < V; i++)
+      for (int j = i + 1; j < V; j++)
+         if (graph[i][j] && colorArray[j] == colorArray[i])
+            return false;
+   return true;
+}
+
+/*
+A recursive function that takes the current index, number of vertices, and the color array. If the recursive call returns true then the coloring is possible. It returns
+false if the m colors cannot be assigned.
+*/
+bool graphColoringAlgorithm(bool graph[V][V], int m, int i,
+                            int colorArray[V]) {
+   /*
+   If we have reached the last vertex then check and print the configuration.
+   */
+   if (i == V) {
+      if (isSafe(graph, colorArray)) {
+         printConfiguration(colorArray);
+         return true;
+      }
+      return false;
+   }
+
+   // Assigning color to the vertex and recursively calling the function.
+   for (int j = 1; j <= m; j++) {
+      colorArray[i] = j;
+
+      if (graphColoringAlgorithm(graph, m, i + 1, colorArray))
+         return true;
+
+      colorArray[i] = 0;
+   }
+
+   return false;
+}
+
+int main() {
+   bool graph[V][V] = {
+       {0, 1, 1, 1},
+       {1, 0, 1, 0},
+       {1, 1, 0, 1},
+       {1, 0, 1, 0},
+   };
+   int m = 3;
+
+   int colorArray[V];
+   /*
+   Initially, the color array is initialized with 0.
+   */
+   for (int i = 0; i < V; i++)
+      colorArray[i] = 0;
+
+   if (graphColoringAlgorithm(graph, m, 0, colorArray))
+      cout << "Coloring is possible!";
+   else
+      cout << "Coloring is not possible!";
+
+   return 0;
+}
+
+
+
+N QUEEN PROBLEM
+
+
+
+#include <bits/stdc++.h>
+using namespace std;
+
+/*
+defining a macro that denotes the total number of vertices of the graph
+*/
+#define V 4
+
+/* A function to print the color configuration*/
+void printConfiguration(int colorArray[]) {
+   cout << "The assigned colors are as follows: " << endl;
+   for (int i = 0; i < V; i++)
+      cout << "Vertex: " << i << " Color: " << colorArray[i] << endl;
+}
+
+/*
+A function that will check if the current color of the graph is safe or not.
+*/
+bool isSafe(bool graph[V][V], int colorArray[]) {
+   for (int i = 0; i < V; i++)
+      for (int j = i + 1; j < V; j++)
+         if (graph[i][j] && colorArray[j] == colorArray[i])
+            return false;
+   return true;
+}
+
+/*
+A recursive function that takes the current index, number of vertices, and the color array. If the recursive call returns true then the coloring is possible. It returns
+false if the m colors cannot be assigned.
+*/
+bool graphColoringAlgorithm(bool graph[V][V], int m, int i,
+                            int colorArray[V]) {
+   /*
+   If we have reached the last vertex then check and print the configuration.
+   */
+   if (i == V) {
+      if (isSafe(graph, colorArray)) {
+         printConfiguration(colorArray);
+         return true;
+      }
+      return false;
+   }
+
+   // Assigning color to the vertex and recursively calling the function.
+   for (int j = 1; j <= m; j++) {
+      colorArray[i] = j;
+
+      if (graphColoringAlgorithm(graph, m, i + 1, colorArray))
+         return true;
+
+      colorArray[i] = 0;
+   }
+
+   return false;
+}
+
+int main() {
+   bool graph[V][V] = {
+       {0, 1, 1, 1},
+       {1, 0, 1, 0},
+       {1, 1, 0, 1},
+       {1, 0, 1, 0},
+   };
+   int m = 3;
+
+   int colorArray[V];
+   /*
+   Initially, the color array is initialized with 0.
+   */
+   for (int i = 0; i < V; i++)
+      colorArray[i] = 0;
+
+   if (graphColoringAlgorithm(graph, m, 0, colorArray))
+      cout << "Coloring is possible!";
+   else
+      cout << "Coloring is not possible!";
+
+   return 0;
+}
+
+
+0/1 KNAPSACK
+
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int Knapsack(int W, int index_of_nth_item, int weight[], int value[])
+{
+	if (index_of_nth_item < 0 || W == 0)
+	{
+		// Base case
+		return 0;
+	}
+
+	// Weight of the n-th item is greater than W.
+
+	if (weight[index_of_nth_item] > W)
+	{
+		return Knapsack(W, index_of_nth_item - 1, weight, value);
+	}
+
+	// Weight of the n-th item is less than W.
+
+	int include_nth_item = value[index_of_nth_item] + Knapsack(W - weight[index_of_nth_item], index_of_nth_item - 1, weight, value);
+
+	int exclude_nth_item = Knapsack(W, index_of_nth_item - 1, weight, value);
+
+	return max(include_nth_item, exclude_nth_item);
+}
+
+int main()
+{
+	int number_of_items = 3;
+    
+        // Maximum Capacity of Knapsack
+	int W = 30;
+
+	int value[number_of_items], weight[number_of_items];
+
+	// We will use 0 based indexing for taking the inputs.
+
+	// Weight and the value associated with the first item 
+	weight[0] = 5, value[0] = 50;
+
+	// Weight and the value associated with the second item 
+	weight[1] = 20, value[1] = 140;
+
+	// Weight and the value associated with the third item 
+	weight[2] = 10, value[2] = 60;
+
+	cout << "The maximum sum of the value for the given knapsack is :\n";
+    
+        // Initially pass the index of the last item to the Knapsack function.
+	cout << Knapsack(W, number_of_items - 1, weight, value) << "\n";
+
+	return 0;
+}
+
